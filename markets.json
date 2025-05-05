@@ -1,0 +1,48 @@
+{
+  "www.dns-shop.ru": {
+    "name": "dns",
+    "price": "div.product-buy__price",
+    "cookie_file": "credentials/dns_shop_cookie.json"
+  },
+  "www.ozon.ru": {
+    "name": "ozon",
+    "price": "span.pm0_28.m9o_28",
+    "url": "https://ozon.ru",
+    "main_search": "input[type=\"text\"]",
+    "card_selector": "div.tile-root",
+    "card_title_query": "span.tsBody500Medium",
+    "card_price_query": "span.tsHeadline500Medium",
+    "card_link_query": "a.tile-clickable-element",
+    "cookie_file": "null"
+  },
+  "market.yandex.ru": {
+    "name": "yandex_market",
+    "price": "span[data-auto=\"snippet-price-current\"]>span",
+    "url": "https://market.yandex.ru",
+    "main_search": "input[id=\"header-search\"]",
+    "card_selector": "div._2g7lE",
+    "card_title_query": "span[data-auto=\"snippet-title\"]",
+    "card_price_query": "span.ds-text_color_price-term",
+    "card_link_query": "a[data-auto=\"snippet-link\"]",
+    "cookie_file": "credentials/yandex_market_cookie.json"
+  },
+  "www.wildberries.ru": {
+    "name": "wildberries",
+    "url": "https://wildberries.ru",
+    "main_search": "input[id=\"searchInput\"]",
+    "card_selector": "div.product-card__wrapper",
+    "card_title_query": "span.product-card__name",
+    "card_price_query": "ins.price__lower-price",
+    "card_link_query": "a.product-card__link",
+    "cookie_file": "credentials/wildberries_cookie.json"
+  },
+  "avito": {
+    "url": "https://www.avito.ru",
+    "main_search": "input[id=\"bx_search\"]",
+    "card_selector": "div[data-marker=\"item\"]",
+    "card_title_query": "a[data-marker=\"item-title\"]",
+    "card_price_query": "p[data-marker=\"item-price\"]",
+    "card_link_query": "a[data-marker=\"item-title\"]",
+    "cookie_file": "null"
+    }
+}

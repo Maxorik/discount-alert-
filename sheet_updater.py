@@ -7,7 +7,7 @@ from datetime import datetime
 from market_parser import parse_market
 
 # json с доступом к sheets
-SERVICE_ACCOUNT_FILE = 'service_account.json'
+SERVICE_ACCOUNT_FILE = 'credentials/google_sheet.json'
 
 # куда доступ
 SCOPES = [
@@ -25,17 +25,18 @@ worksheet = spreadsheet.worksheet("parsed_components")
 
 # чтение всех значений
 data = worksheet.get_all_values()
+data.pop(0)
 
 # обновление цен
 for i in range(len(data)):
     try:
-        current_price = parse_market(data[i][1])
-        sheet_data = re.sub(r"[^0-9]", '', current_price)
-        worksheet.update(f'G{i+1}', [[sheet_data]])
-        print(f'price from {data[i][0]} is {current_price}')
+        get_current_price = parse_market(data[i][1])
+        sheet_data = re.sub(r"[^0-9]", '', get_current_price)
+        worksheet.update(f'G{i+2}', [[sheet_data]])
+        print(f'price from {data[i][0]} is {get_current_price}')
     except Exception as e:
+        worksheet.update(f'G{i+2}', [['error']])
         print('error', e)
-
 
 now = datetime.now()
 formatted_datetime = now.strftime("%d.%m.%y, %H:%M")

@@ -1,0 +1,2 @@
+запуск
+python sheet_updater.py

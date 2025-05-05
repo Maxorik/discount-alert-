@@ -7,12 +7,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+import json
 
-market_selectors = {
-    'www.dns-shop.ru': 'div.product-buy__price',
-    'www.ozon.ru': 'span.pm0_28.m9o_28',
-    'market.yandex.ru': 'span[data-auto="snippet-price-current"]>span.ds-text_typography_headline-3'
-}
+with open("markets.json", "r") as markets_file:
+    market_selectors = json.load(markets_file)
 
 # открываем маркет, эмулируем поиск
 def parse_market(product_link):
@@ -42,19 +40,26 @@ def parse_market(product_link):
     try:
         print("Открываю", product_link)
         driver.get(product_link)
+
+        # обрабатываем куки аутентификации
+        if market_selectors[domain_part]["cookie_file"] != 'null':
+            with open(market_selectors[domain_part]["cookie_file"], "r") as cookies:
+                enter_cookie = json.load(cookies)
+
+            for c in enter_cookie:
+                c.pop("sameSite", None)
+                driver.add_cookie(c)
+
+            driver.get(product_link)
+
         wait = WebDriverWait(driver, 10)
         time.sleep(2)
 
-        driver.save_screenshot(domain_part + ".png")
-
-        print(domain_part)
+        # отладочный скрин
+        driver.save_screenshot(market_selectors[domain_part]["name"] + ".png")
 
         market_selector = market_selectors[domain_part]
-
-        print('check', market_selector)
-
-        price_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, market_selector)))
-
+        price_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, market_selector["price"])))
         return price_input.text
 
     except Exception as e:
